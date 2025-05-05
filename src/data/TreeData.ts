@@ -1,4 +1,16 @@
-const TreeData = {
+type TreeNode =
+  | {
+      id?: string;
+      question: string;
+      options: { label: string; target: string }[];
+    }
+  | {
+      pattern: string;
+      description: string;
+      pseudocode: string;
+    };
+
+const TreeData: { [key: string]: TreeNode } = {
   start: {
     id: "start",
     question: "What structure does the input primarily use?",
