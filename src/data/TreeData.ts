@@ -35,7 +35,9 @@ const TreeData: { [key: string]: TreeNode } = {
       { label: "Longest Common Subsequence (LCS)", target: "LCS" },
       { label: "Longest Common Substring", target: "LCSstr" },
       { label: "Longest Palindromic Substring", target: "palindrome" },
-      { label: "Stock Trading Problems", target: "stockType" }
+      { label: "Stock Trading Problems", target: "stockType" },
+      { label: "Generated Sequence (e.g., Ugly Numbers)", target: "generatedSequenceType" }
+
     ]
   },
   LIS: {
@@ -187,6 +189,85 @@ const TreeData: { [key: string]: TreeNode } = {
       dp[t][d] = max(dp[t][d-1], prices[d] + maxDiff)
       maxDiff = max(maxDiff, dp[t-1][d] - prices[d])
   return dp[k][n-1]`
+  },
+
+  generatedSequenceType: {
+    question: "Which generated sequence pattern?",
+    options: [
+      { label: "Fibonacci / Tribonacci", target: "Fibonacci" },
+      { label: "Ugly Number II", target: "UglyNumberII" },
+      { label: "Super Ugly Number", target: "SuperUglyNumber" },
+      { label: "Nth Magical Number", target: "MagicalNumber" },
+      { label: "Count Binary Strings without consecutive 1s", target: "NoConsec1s" }
+    ]
+  },
+
+  Fibonacci: {
+    pattern: "Fibonacci / Tribonacci",
+    description: "Compute the nth Fibonacci or Tribonacci number.",
+    pseudocode: `function fibonacci(n):
+  if n <= 1: return n
+  a, b = 0, 1
+  for i in 2 to n:
+    a, b = b, a + b
+  return b`
+  },
+
+  UglyNumberII: {
+    pattern: "Ugly Number II",
+    description: "Find the nth ugly number where prime factors are only 2, 3, 5.",
+    pseudocode: `function nthUglyNumber(n):
+  res = [1]
+  i2 = i3 = i5 = 0
+  for i in 1 to n:
+    next = min(res[i2]*2, res[i3]*3, res[i5]*5)
+    res.append(next)
+    if next == res[i2]*2: i2 += 1
+    if next == res[i3]*3: i3 += 1
+    if next == res[i5]*5: i5 += 1
+  return res[n-1]`
+  },
+
+  SuperUglyNumber: {
+    pattern: "Super Ugly Number",
+    description: "Find the nth number whose prime factors are from a given list.",
+    pseudocode: `function nthSuperUglyNumber(n, primes):
+  res = [1]
+  idx = [0] * len(primes)
+  values = list(primes)
+  for i in 1 to n-1:
+    next_ugly = min(values)
+    res.append(next_ugly)
+    for j in range(len(primes)):
+      if values[j] == next_ugly:
+        idx[j] += 1
+        values[j] = primes[j] * res[idx[j]]
+  return res[-1]`
+  },
+
+  MagicalNumber: {
+    pattern: "Nth Magical Number",
+    description: "Find the nth number divisible by either A or B.",
+    pseudocode: `function nthMagicalNumber(n, A, B):
+  lcm = A * B // gcd(A, B)
+  low, high = 0, 1e18
+  while low < high:
+    mid = (low + high) // 2
+    if mid//A + mid//B - mid//lcm < n:
+      low = mid + 1
+    else:
+      high = mid
+  return low % (10**9 + 7)`
+  },
+
+  NoConsec1s: {
+    pattern: "Binary Strings without consecutive 1s",
+    description: "Count n-length binary strings with no two consecutive 1s.",
+    pseudocode: `function countStrings(n):
+  a, b = 1, 1
+  for i in 2 to n:
+    a, b = b, a + b
+  return a + b`
   },
 
   // === SUBSET / KNAPSACK ===
