@@ -34,7 +34,8 @@ const TreeData: { [key: string]: TreeNode } = {
       { label: "Longest Increasing Subsequence (LIS)", target: "LIS" },
       { label: "Longest Common Subsequence (LCS)", target: "LCS" },
       { label: "Longest Common Substring", target: "LCSstr" },
-      { label: "Longest Palindromic Substring", target: "palindrome" }
+      { label: "Longest Palindromic Substring", target: "palindrome" },
+      { label: "Stock Trading Problems", target: "stockType" }
     ]
   },
   LIS: {
@@ -110,6 +111,82 @@ const TreeData: { [key: string]: TreeNode } = {
       l -= 1
       r += 1
   return s[start:start+maxLength]`
+  },
+  stockType: {
+    question: "Which stock constraint applies?",
+    options: [
+      { label: "Single transaction", target: "Stock1" },
+      { label: "Multiple transactions", target: "Stock2" },
+      { label: "With cooldown", target: "StockCooldown" },
+      { label: "With transaction fee", target: "StockFee" },
+      { label: "At most K transactions", target: "StockK" }
+    ]
+  },
+
+  Stock1: {
+    pattern: "Best Time to Buy and Sell Stock I",
+    description: "Max profit with only one transaction allowed.",
+    pseudocode: `function maxProfit(prices):
+  minPrice = ∞, maxProfit = 0
+  for price in prices:
+    minPrice = min(minPrice, price)
+    maxProfit = max(maxProfit, price - minPrice)
+  return maxProfit`
+  },
+
+  Stock2: {
+    pattern: "Best Time to Buy and Sell Stock II",
+    description: "Max profit with unlimited transactions.",
+    pseudocode: `function maxProfit(prices):
+  profit = 0
+  for i from 1 to n-1:
+    if prices[i] > prices[i-1]:
+      profit += prices[i] - prices[i-1]
+  return profit`
+  },
+
+  StockCooldown: {
+    pattern: "Best Time to Buy and Sell Stock with Cooldown",
+    description: "Max profit with cooldown of 1 day after selling.",
+    pseudocode: `function maxProfit(prices):
+  if prices is empty: return 0
+  n = length of prices
+  hold = [0]*n, sold = [0]*n, rest = [0]*n
+  hold[0] = -prices[0]
+  for i in 1 to n-1:
+    hold[i] = max(hold[i-1], rest[i-1] - prices[i])
+    sold[i] = hold[i-1] + prices[i]
+    rest[i] = max(rest[i-1], sold[i-1])
+  return max(sold[n-1], rest[n-1])`
+  },
+
+  StockFee: {
+    pattern: "Best Time to Buy and Sell Stock with Transaction Fee",
+    description: "Max profit with fee charged for each transaction.",
+    pseudocode: `function maxProfit(prices, fee):
+  n = length of prices
+  hold = -prices[0], cash = 0
+  for i in 1 to n-1:
+    hold = max(hold, cash - prices[i])
+    cash = max(cash, hold + prices[i] - fee)
+  return cash`
+  },
+
+  StockK: {
+    pattern: "Best Time to Buy and Sell Stock IV",
+    description: "Max profit with at most K transactions.",
+    pseudocode: `function maxProfit(k, prices):
+  if prices is empty or k == 0: return 0
+  n = length of prices
+  if k >= n//2:
+    return Stock2(prices)
+  dp = 2D array (k+1) x n
+  for t in 1 to k:
+    maxDiff = -prices[0]
+    for d in 1 to n-1:
+      dp[t][d] = max(dp[t][d-1], prices[d] + maxDiff)
+      maxDiff = max(maxDiff, dp[t-1][d] - prices[d])
+  return dp[k][n-1]`
   },
 
   // === SUBSET / KNAPSACK ===
