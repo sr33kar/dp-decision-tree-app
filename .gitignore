@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+.vite/
+
+# Production files
+.env
+.env.*.local
+.env.local
+*.local
+
+# Vite cache
+.cache/
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+
+# VS Code
+.vscode/
+.history/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Mac/Unix
+*.swp
+*.swo
+*.swn
