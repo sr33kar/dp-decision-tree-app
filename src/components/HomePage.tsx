@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import image from "../assets/image.jpg";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -17,7 +18,8 @@ export default function HomePage() {
         className="px-6 py-3 bg-blue-600 text-white rounded-xl text-lg hover:bg-blue-700 transition"
       >
         🚀 Start Decision Tree
-      </button>
+      </button><br></br>
+      <img src={image} width="300" height="400"></img>
     </div>
   );
 }
